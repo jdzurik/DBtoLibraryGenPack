@@ -1,4 +1,7 @@
-﻿
+
+declare @CurrentDb varchar(200); 
+
+set @CurrentDb = SELECT DB_NAME() AS [Current Database]; 
 
 SELECT 
 		TableInfo.TABLE_CATALOG as 'DatabaseName'
@@ -24,7 +27,7 @@ SELECT
 			FROM 
 				INFORMATION_SCHEMA.COLUMNS as ColumnInfo
 			WHERE 
-				ColumnInfo.TABLE_CATALOG = 'GolfSMS' 
+				ColumnInfo.TABLE_CATALOG = @CurrentDb
 				and ColumnInfo.TABLE_NAME = TableInfo.TABLE_NAME 
 				and ColumnInfo.TABLE_SCHEMA = TABLE_SCHEMA 
 			for xml auto, type, ELEMENTS  
@@ -49,7 +52,7 @@ SELECT
 					FROM 
 						INFORMATION_SCHEMA.KEY_COLUMN_USAGE as ReferanceKeyColumnInfo
 					WHERE 
-							ReferanceKeyColumnInfo.TABLE_CATALOG = 'GolfSMS' 
+							ReferanceKeyColumnInfo.TABLE_CATALOG = @CurrentDb 
 							and ReferanceKeyColumnInfo.CONSTRAINT_NAME = ReferenceInfo.UNIQUE_CONSTRAINT_Name 
 							and ReferanceKeyColumnInfo.CONSTRAINT_SCHEMA = ReferenceInfo.CONSTRAINT_SCHEMA 
 					for xml auto, type, ELEMENTS  
@@ -57,7 +60,7 @@ SELECT
 				FROM 
 					INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS as ReferenceInfo
 				WHERE 
-					ReferenceInfo.CONSTRAINT_CATALOG = 'GolfSMS' 
+					ReferenceInfo.CONSTRAINT_CATALOG = @CurrentDb 
 					and ReferenceInfo.CONSTRAINT_NAME = KeyColumnInfo.CONSTRAINT_NAME 
 					and ReferenceInfo.CONSTRAINT_SCHEMA = KeyColumnInfo.CONSTRAINT_SCHEMA 
 				for xml auto, type, ELEMENTS  
@@ -65,7 +68,7 @@ SELECT
 			FROM 
 				INFORMATION_SCHEMA.KEY_COLUMN_USAGE as KeyColumnInfo
 			WHERE 
-				KeyColumnInfo.TABLE_CATALOG = 'GolfSMS' 
+				KeyColumnInfo.TABLE_CATALOG = @CurrentDb 
 				and KeyColumnInfo.TABLE_NAME = TableInfo.TABLE_NAME 
 				and KeyColumnInfo.TABLE_SCHEMA = TABLE_SCHEMA 
 			for xml auto, type, ELEMENTS  
@@ -74,5 +77,5 @@ SELECT
 		FROM 
 			INFORMATION_SCHEMA.TABLES as TableInfo
 		WHERE 
-			TableInfo.TABLE_CATALOG = 'GolfSMS'  
+			TableInfo.TABLE_CATALOG = @CurrentDb 
 			for xml auto, ELEMENTS, ROOT('TableList') 
