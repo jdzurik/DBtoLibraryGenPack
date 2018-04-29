@@ -1,0 +1,6 @@
+﻿Using System.Core;
+
+Public Class {{= it.TableList.TableInfo[0].TableName }}
+{
+
+}
