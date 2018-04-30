@@ -1,7 +1,8 @@
 
 declare @CurrentDb varchar(200); 
+set @CurrentDb = (SELECT DB_NAME() AS [Current Database]); 
 
-set @CurrentDb = SELECT DB_NAME() AS [Current Database]; 
+--work
 
 SELECT 
 		TableInfo.TABLE_CATALOG as 'DatabaseName'
